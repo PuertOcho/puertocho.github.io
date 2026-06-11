@@ -29,9 +29,17 @@ export interface Content {
     subtitle: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    pipeline: string[];
     stats: { value: string; label: string }[];
   };
-  about: { heading: string; lead: string; paragraphs: string[]; edge: { title: string; text: string } };
+  about: {
+    heading: string;
+    lead: string;
+    paragraphs: string[];
+    edge: { title: string; text: string };
+    timelineHeading: string;
+    timeline: { year: string; text: string }[];
+  };
   services: { heading: string; lead: string; items: Service[] };
   projects: { heading: string; lead: string; items: Project[]; allLabel: string; allHref: string };
   contact: { heading: string; lead: string; emailLabel: string; email: string; cta: string };
@@ -45,6 +53,7 @@ const linkedin = 'https://www.linkedin.com/in/antonio-puerto-borreguero/';
 const projectsBase = {
   tony: github + '/tony',
   puertocho: github + '/puertocho-assistant',
+  nuka: github + '/nuka',
   e2mcp: github + '/e2studio-mcp',
   industry: github + '/tfg-industry-4',
 };
@@ -72,11 +81,12 @@ export const content: Record<Lang, Content> = {
         'Diseño y despliego soluciones de inteligencia artificial de extremo a extremo: del modelo de lenguaje y los agentes, a los microservicios que los sirven y el hardware donde corren.',
       ctaPrimary: 'Hablemos',
       ctaSecondary: 'Ver proyectos',
+      pipeline: ['LLM', 'agentes', 'microservicios', 'firmware'],
       stats: [
-        { value: '2020', label: 'trabajando con IA' },
-        { value: '3', label: 'generaciones de agentes' },
-        { value: 'E2E', label: 'del modelo al silicio' },
-        { value: 'MCP', label: 'integraciones a medida' },
+        { value: '−94 %', label: 'latencia de eventos en un sistema en producción' },
+        { value: '9/9', label: 'módulos migrados y verificados en hardware real' },
+        { value: '3', label: 'generaciones de asistentes propios desde 2023' },
+        { value: '20+', label: 'servidores MCP construidos y operando' },
       ],
     },
     about: {
@@ -91,13 +101,20 @@ export const content: Record<Lang, Content> = {
         text:
           'Mi base son los sistemas empotrados (firmware sobre Renesas/STM32, FreeRTOS, CAN, protocolos industriales). Eso me da algo poco común en perfiles de IA: entiendo el dispositivo físico de punta a punta, no solo la nube.',
       },
+      timelineHeading: 'Trayectoria',
+      timeline: [
+        { year: '2020', text: 'Fundamentos de IA en la universidad: algoritmos genéticos, MCTS, árboles de decisión.' },
+        { year: '2023', text: 'nuka — 1ª generación de asistente propio: GPT, Whisper, TTS y RAG, en la primera ola de la IA generativa.' },
+        { year: '2025', text: 'puertocho-assistant — 2ª generación: microservicios y pipeline de voz E2E con votación de modelos (MoE).' },
+        { year: 'hoy', text: 'tony — 3ª generación: plataforma agéntica con 20+ MCPs, evaluación continua y hardware propio. Y consultoría de IA aplicada en entornos industriales.' },
+      ],
     },
     services: {
       heading: 'En qué ayudo a las empresas',
       lead: 'De pilotos de IA que impresionan en una demo, a sistemas que funcionan de verdad en producción.',
       items: [
         {
-          icon: '🤖',
+          icon: 'agentes',
           title: 'Despliegue y gobierno de agentes',
           description:
             'Tu empresa quiere usar agentes de IA, pero el salto del notebook a producción es donde casi todo el mundo se atasca. Yo lo cierro.',
@@ -108,7 +125,7 @@ export const content: Record<Lang, Content> = {
           ],
         },
         {
-          icon: '⚙️',
+          icon: 'hardware',
           title: 'IA en entornos con hardware',
           description:
             'Integro IA en flujos industriales y de dispositivo: del backend al firmware. Si tu producto tiene electrónica, no necesitas dos proveedores.',
@@ -119,7 +136,7 @@ export const content: Record<Lang, Content> = {
           ],
         },
         {
-          icon: '✨',
+          icon: 'contenido',
           title: 'Contenido e IA generativa',
           description:
             'Sistemas para generar y gestionar contenido con IA — desde guiones a publicación — con criterio de ingeniería, no solo prompts sueltos.',
@@ -141,8 +158,8 @@ export const content: Record<Lang, Content> = {
           name: 'tony',
           tagline: 'Plataforma agéntica de 3ª generación',
           description:
-            'Sistema agéntico de grado producción: servidor de agentes, cliente de escritorio, servidor MCP propio, proxy de modelos, observabilidad de LLMs con Langfuse y monitorización con Grafana/Prometheus. +1.000 commits.',
-          tags: ['Agentes', 'MCP', 'Langfuse', 'Docker', 'Observabilidad'],
+            'Multi-proveedor (OpenAI, Anthropic, Google) con MoE propio: votación paralela de modelos con consenso. Cerebro bio-inspirado sobre LangGraph, 20+ servicios MCP, evaluación semántica continua (122 casos con juez LLM), observabilidad con Langfuse/Grafana y hardware propio (ESP32-S3). 1.001 commits, 36 releases.',
+          tags: ['Agentes', 'LangGraph', 'MCP', 'MoE', 'Langfuse', 'ESP32'],
           href: projectsBase.tony,
           featured: true,
         },
@@ -150,8 +167,8 @@ export const content: Record<Lang, Content> = {
           name: 'puertocho-assistant',
           tagline: 'Asistente de IA de voz (2ª gen)',
           description:
-            'Arquitectura de microservicios completa (Spring Boot + Eureka) con capa de IA de voz E2E: STT, NLU, comprensión de diálogo, gestor de intenciones y varios microservicios de TTS. Desplegado sobre Raspberry Pi.',
-          tags: ['Microservicios', 'STT/TTS', 'NLU', 'Spring Boot', 'Edge'],
+            'Microservicios Spring Boot + Eureka con capa de voz E2E: Whisper local, gestor de intenciones LLM-RAG con votación MoE de 3 modelos, descomposición dinámica de tareas y cadena TTS con fallbacks. Desplegado sobre Raspberry Pi.',
+          tags: ['Microservicios', 'Whisper', 'MoE', 'Spring Boot', 'Edge'],
           href: projectsBase.puertocho,
           featured: true,
         },
@@ -163,6 +180,14 @@ export const content: Record<Lang, Content> = {
           tags: ['MCP', 'Renesas RX', 'Python', 'Embedded'],
           href: projectsBase.e2mcp,
           featured: true,
+        },
+        {
+          name: 'nuka',
+          tagline: 'Donde empezó la serie (1ª gen, 2023)',
+          description:
+            'Asistente multimodal construido en la primera ola de la IA generativa: GPT, Whisper, Azure TTS, DALL-E y RAG sobre Obsidian. App Ionic/Angular + servidor Spring Boot. 485 commits.',
+          tags: ['GPT', 'Whisper', 'RAG', 'Ionic', 'Spring Boot'],
+          href: projectsBase.nuka,
         },
         {
           name: 'tfg-industry-4',
@@ -209,11 +234,12 @@ export const content: Record<Lang, Content> = {
         'I design and ship end-to-end AI solutions: from the language model and agents, to the microservices that serve them and the hardware they run on.',
       ctaPrimary: "Let's talk",
       ctaSecondary: 'See projects',
+      pipeline: ['LLM', 'agents', 'microservices', 'firmware'],
       stats: [
-        { value: '2020', label: 'working with AI' },
-        { value: '3', label: 'agent generations' },
-        { value: 'E2E', label: 'from model to silicon' },
-        { value: 'MCP', label: 'custom integrations' },
+        { value: '−94%', label: 'event latency in a production system' },
+        { value: '9/9', label: 'modules migrated and verified on real hardware' },
+        { value: '3', label: 'generations of self-built assistants since 2023' },
+        { value: '20+', label: 'MCP servers built and operating' },
       ],
     },
     about: {
@@ -228,13 +254,20 @@ export const content: Record<Lang, Content> = {
         text:
           'My foundation is embedded systems (firmware on Renesas/STM32, FreeRTOS, CAN, industrial protocols). That gives me something rare among AI profiles: I understand the physical device end to end, not just the cloud.',
       },
+      timelineHeading: 'Track record',
+      timeline: [
+        { year: '2020', text: 'AI foundations at university: genetic algorithms, MCTS, decision trees.' },
+        { year: '2023', text: 'nuka — 1st self-built assistant generation: GPT, Whisper, TTS and RAG, in the first wave of generative AI.' },
+        { year: '2025', text: 'puertocho-assistant — 2nd generation: microservices and an E2E voice pipeline with model voting (MoE).' },
+        { year: 'now', text: 'tony — 3rd generation: an agentic platform with 20+ MCPs, continuous evaluation and its own hardware. Plus applied-AI consulting in industrial environments.' },
+      ],
     },
     services: {
       heading: 'How I help companies',
       lead: 'From AI pilots that dazzle in a demo, to systems that actually work in production.',
       items: [
         {
-          icon: '🤖',
+          icon: 'agents',
           title: 'Agent deployment & governance',
           description:
             'Your company wants to use AI agents, but the jump from notebook to production is where almost everyone gets stuck. I close that gap.',
@@ -245,7 +278,7 @@ export const content: Record<Lang, Content> = {
           ],
         },
         {
-          icon: '⚙️',
+          icon: 'hardware',
           title: 'AI in hardware environments',
           description:
             'I integrate AI into industrial and device workflows: from backend to firmware. If your product has electronics, you don\'t need two vendors.',
@@ -256,7 +289,7 @@ export const content: Record<Lang, Content> = {
           ],
         },
         {
-          icon: '✨',
+          icon: 'content',
           title: 'Content & generative AI',
           description:
             'Systems to generate and manage content with AI — from scripts to publishing — built with engineering rigor, not just loose prompts.',
@@ -278,8 +311,8 @@ export const content: Record<Lang, Content> = {
           name: 'tony',
           tagline: '3rd-generation agentic platform',
           description:
-            'Production-grade agentic system: agent server, desktop client, custom MCP server, model proxy, LLM observability with Langfuse and Grafana/Prometheus monitoring. 1,000+ commits.',
-          tags: ['Agents', 'MCP', 'Langfuse', 'Docker', 'Observability'],
+            'Multi-provider (OpenAI, Anthropic, Google) with a custom MoE: parallel model voting with consensus. Bio-inspired brain on LangGraph, 20+ MCP services, continuous semantic evaluation (122 cases with an LLM judge), Langfuse/Grafana observability and its own hardware (ESP32-S3). 1,001 commits, 36 releases.',
+          tags: ['Agents', 'LangGraph', 'MCP', 'MoE', 'Langfuse', 'ESP32'],
           href: projectsBase.tony,
           featured: true,
         },
@@ -287,8 +320,8 @@ export const content: Record<Lang, Content> = {
           name: 'puertocho-assistant',
           tagline: 'Voice AI assistant (2nd gen)',
           description:
-            'Full microservice architecture (Spring Boot + Eureka) with an end-to-end voice AI layer: STT, NLU, dialogue understanding, intent manager and multiple TTS microservices. Deployed on Raspberry Pi.',
-          tags: ['Microservices', 'STT/TTS', 'NLU', 'Spring Boot', 'Edge'],
+            'Spring Boot + Eureka microservices with an E2E voice layer: local Whisper, an LLM-RAG intent manager with 3-model MoE voting, dynamic task decomposition and a TTS chain with fallbacks. Deployed on Raspberry Pi.',
+          tags: ['Microservices', 'Whisper', 'MoE', 'Spring Boot', 'Edge'],
           href: projectsBase.puertocho,
           featured: true,
         },
@@ -300,6 +333,14 @@ export const content: Record<Lang, Content> = {
           tags: ['MCP', 'Renesas RX', 'Python', 'Embedded'],
           href: projectsBase.e2mcp,
           featured: true,
+        },
+        {
+          name: 'nuka',
+          tagline: 'Where the series began (1st gen, 2023)',
+          description:
+            'A multimodal assistant built in the first wave of generative AI: GPT, Whisper, Azure TTS, DALL-E and RAG over Obsidian. Ionic/Angular app + Spring Boot server. 485 commits.',
+          tags: ['GPT', 'Whisper', 'RAG', 'Ionic', 'Spring Boot'],
+          href: projectsBase.nuka,
         },
         {
           name: 'tfg-industry-4',

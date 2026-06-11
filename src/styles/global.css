@@ -1,38 +1,32 @@
 /* ============================================================
-   Antonio Puerto — sistema de diseño
-   Marca personal con carácter: tinta profunda + degradado IA
-   (violeta→cian) y acento cálido (ámbar) para el lado hardware.
+   Antonio Puerto — sistema de diseño v2
+   "Documento de ingeniería": papel técnico, tinta y un solo
+   acento naranja señal (serigrafía PCB). IBM Plex Sans + Mono.
    ============================================================ */
 
 :root {
-  /* Fondos */
-  --bg: #0b0b12;
-  --bg-soft: #12121d;
-  --surface: #181826;
-  --surface-2: #20203049;
-  --border: #2a2a3d;
+  /* Papel y tinta */
+  --paper: #f6f4ef;
+  --paper-soft: #efece4;
+  --paper-deep: #1b1a17; /* bloques invertidos */
+  --ink: #1b1a17;
+  --ink-soft: #4c4a43;
+  --ink-dim: #8b877c;
+  --line: #d8d3c6;
+  --line-strong: #b9b3a3;
 
-  /* Texto */
-  --text: #ededf2;
-  --text-muted: #a0a0b8;
-  --text-dim: #6f6f8a;
-
-  /* Marca */
-  --violet: #8b5cf6;
-  --cyan: #22d3ee;
-  --amber: #fb923c;
-  --grad: linear-gradient(110deg, var(--violet) 0%, var(--cyan) 100%);
-  --grad-soft: linear-gradient(110deg, rgba(139, 92, 246, 0.14), rgba(34, 211, 238, 0.1));
+  /* Acento: naranja señal */
+  --accent: #e25303;
+  --accent-ink: #b94300; /* para texto sobre papel (contraste AA) */
+  --accent-soft: rgba(226, 83, 3, 0.08);
 
   /* Tipografía */
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace;
 
   /* Medidas */
-  --maxw: 1120px;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --maxw: 1080px;
+  --radius: 3px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,101 +34,86 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Glow ambiental de fondo */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(60rem 60rem at 80% -10%, rgba(139, 92, 246, 0.16), transparent 60%),
-    radial-gradient(50rem 50rem at 0% 10%, rgba(34, 211, 238, 0.1), transparent 55%),
-    radial-gradient(40rem 40rem at 60% 100%, rgba(251, 146, 60, 0.07), transparent 60%);
-  pointer-events: none;
-}
-
 a { color: inherit; text-decoration: none; }
 
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; }
+h1, h2, h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
 
 .container { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: 24px; }
 
-section { padding-block: clamp(64px, 10vw, 120px); }
+section { padding-block: clamp(56px, 9vw, 110px); }
 
-.eyebrow {
+/* Etiqueta de sección numerada: "01 — sobre mí" */
+.sec-label {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--cyan);
-  margin-bottom: 14px;
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  border-top: 1px solid var(--line-strong);
+  padding-top: 18px;
+  margin-bottom: 34px;
 }
+.sec-label .sec-num { color: var(--accent-ink); font-weight: 600; }
 
-.grad-text {
-  background: var(--grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+.section-head h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); max-width: 700px; }
+.section-head { margin-bottom: 44px; }
 
-.section-head { max-width: 720px; margin-bottom: 56px; }
-.section-head h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); }
-.section-head p { color: var(--text-muted); margin-top: 14px; font-size: 1.1rem; }
-
-/* Botones */
+/* Botones — rectangulares, de documento técnico */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-display);
+  gap: 10px;
+  font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 1rem;
-  padding: 13px 24px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-.btn-primary { background: var(--grad); color: #0b0b12; font-weight: 600; }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -8px rgba(139, 92, 246, 0.6); }
-.btn-ghost { border-color: var(--border); color: var(--text); background: transparent; }
-.btn-ghost:hover { border-color: var(--violet); background: var(--surface-2); transform: translateY(-2px); }
-
-/* Tarjetas */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  font-size: 0.92rem;
+  padding: 12px 22px;
   border-radius: var(--radius);
-  padding: 28px;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.card:hover { transform: translateY(-4px); border-color: var(--violet); box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.8); }
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
 
 /* Chips / tags */
 .tag {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  color: var(--ink-soft);
+  background: transparent;
 }
 
 /* Animación de entrada (respeta reduce-motion) */
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  [data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
   [data-reveal].is-visible { opacity: 1; transform: none; }
 }
 
-::selection { background: rgba(139, 92, 246, 0.4); color: #fff; }
+::selection { background: var(--accent); color: #fff; }
+
+:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
