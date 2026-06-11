@@ -38,7 +38,7 @@ export interface Content {
   footer: { tagline: string; rights: string };
 }
 
-const sharedEmail = 'antoniopuerto8@gmail.com';
+const sharedEmail = 'info@antoniopuerto.com';
 const github = 'https://github.com/PuertOcho';
 const linkedin = 'https://www.linkedin.com/in/antonio-puerto-borreguero/';
 
